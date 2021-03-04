@@ -9,5 +9,13 @@
         app:actionViewClass="android.widget.SearchView"
         android:title="search" />
 
+    <item
+        android:id="@+id/delete_all_notes"
+        android:title="Delete All Notes"
+        app:showAsAction="never"
+        />
+
+
+
 
 </menu>
