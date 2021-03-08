@@ -10,9 +10,14 @@ data class Note(
     val title: String?,
     @ColumnInfo(name = "description")
     val text: String?,
-    @ColumnInfo
-    var pointed : Int = 0
+
 ){
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    var id: Int? = null
+    @ColumnInfo
+    var pointed : Int = 0
+
+    override fun toString(): String {
+        return "title : $title , text : $text , id = $id"
+    }
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/note_navigation"
+    app:startDestination="@id/editNoteFragment">
+
+    <fragment
+        android:id="@+id/editNoteFragment"
+        android:name="com.example.mynote.MainFragment"
+        android:label="My Note"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_editNoteFragment_to_notesFragment"
+            app:destination="@id/notesFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/notesFragment"
+        android:name="com.example.mynote.NotesFragment"
+        android:label="Edit Note"
+        tools:layout="@layout/fragment_notes">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_notesFragment_to_editNoteFragment"
+            app:destination="@id/editNoteFragment"
+            app:popUpTo="@id/editNoteFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
+import kotlinx.android.synthetic.main.activity_add_note.*
 import kotlinx.android.synthetic.main.fragment_notes.*
 
 class AddNoteActivity : AppCompatActivity() {
@@ -17,8 +18,8 @@ class AddNoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_note)
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        setSupportActionBar(findViewById(R.id.bar_title))
 
+        setSupportActionBar(findViewById(R.id.bar_title))
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.title = "Add Note"
