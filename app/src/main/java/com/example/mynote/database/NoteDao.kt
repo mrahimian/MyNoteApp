@@ -11,6 +11,9 @@ interface NoteDao {
     @Update
     fun update(note : Note)
 
+    @Query("update notes set pointed = :point where id = :id ")
+    fun updatePoint(id : Int, point : Int)
+
     @Delete
     fun delete(note : Note)
 

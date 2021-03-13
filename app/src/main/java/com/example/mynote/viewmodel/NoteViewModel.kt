@@ -19,6 +19,10 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         repository.update(note)
     }
 
+    fun updatePoint(note: Note,point : Int){
+        repository.updatePoint(note,point)
+    }
+
     fun delete(note: Note){
         repository.delete(note)
     }

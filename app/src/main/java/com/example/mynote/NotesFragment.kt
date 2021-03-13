@@ -4,6 +4,7 @@ import android.app.ActionBar
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -21,6 +22,7 @@ class NotesFragment : Fragment(R.layout.fragment_notes) {
     val args: NotesFragmentArgs by navArgs()
     private lateinit var noteViewModel : NoteViewModel
     private lateinit var note : Note
+    var pointed : Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,32 +45,54 @@ class NotesFragment : Fragment(R.layout.fragment_notes) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.save_bar, menu);
+        if (pointed == 0){
+            menu.findItem(R.id.like).setIcon(R.drawable.ic_baseline_favorite_border_24)
+        }else{
+            menu.findItem(R.id.like).setIcon(R.drawable.ic_baseline_favorite_24)
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.save_btn){
-            val id = args.id
-            val title = edit_title.text.toString()
-            val description = edit_description.text.toString()
-            note = Note(title,description)
-            note.id = id
-            noteViewModel.update(note)
+        when (item.itemId) {
+            R.id.save_btn -> {
+                val title = edit_title.text.toString()
+                val description = edit_description.text.toString()
+                note.title = title
+                note.text = description
+                note.pointed = pointed
+                noteViewModel.update(note)
 
-            val action = NotesFragmentDirections.actionNotesFragmentToEditNoteFragment()
-            findNavController().navigate(action)
+                val action = NotesFragmentDirections.actionNotesFragmentToAllNotesFragment()
+                findNavController().navigate(action)
+            }
+            R.id.like -> {
+                if (pointed == 0) {
+                    item.setIcon(R.drawable.ic_baseline_favorite_24)
+                    pointed = 1
+                    Log.e("point2",note.pointed.toString())
+                    Toast.makeText(activity,"Added To Your Favorites",Toast.LENGTH_SHORT).show()
+                }else{
+                    item.setIcon(R.drawable.ic_baseline_favorite_border_24)
+                    pointed = 0
+                    Log.e("point3",note.pointed.toString())
+                    Toast.makeText(activity,"Removed From Your Favorites",Toast.LENGTH_SHORT).show()
+                }
+            }
         }
+
         return super.onOptionsItemSelected(item)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val title = args.title
-        val description = args.description
+        note = args.note
+        pointed = note.pointed
 
-        edit_title.setText(title)
-        edit_description.setText(description)
+        edit_title.setText(note.title)
+        edit_description.setText(note.text)
+
 
 
         /*val toolbar = view.findViewById<Toolbar>(R.id.bar_title)

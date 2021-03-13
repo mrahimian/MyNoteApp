@@ -6,17 +6,21 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynote.adapter.NoteAdapter
 import com.example.mynote.database.Note
 import com.example.mynote.viewmodel.NoteViewModel
-import kotlinx.android.synthetic.main.fragment_main.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.all_notes_fragment.*
 
-class MainFragment : Fragment() {
+class AllNotesFragment : Fragment() {
     private lateinit var noteViewModel : NoteViewModel
     private val ADD_NOTE_REQUEST = 1
 
@@ -26,11 +30,13 @@ class MainFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_main, container, false)
+
+        return inflater.inflate(R.layout.all_notes_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         val adapter = NoteAdapter()
         note_recycler_view.adapter = adapter
@@ -47,8 +53,7 @@ class MainFragment : Fragment() {
                 val description = note.text.toString()
                 val id = note.id
                 val action = id?.let {
-                    MainFragmentDirections.actionEditNoteFragmentToNotesFragment(title, description,
-                        it
+                    AllNotesFragmentDirections.actionAllNotesFragmentToNotesFragment(note
                     )
                 }
                 if (action != null) {
@@ -87,10 +92,16 @@ class MainFragment : Fragment() {
         if (requestCode == ADD_NOTE_REQUEST && resultCode == AppCompatActivity.RESULT_OK){
             val title = data?.getStringExtra(AddNoteActivity.TITLE)
             val description = data?.getStringExtra(AddNoteActivity.DESCRIPTION)
-            val note = Note(title,description)
+            val point = if (data?.getBooleanExtra(AddNoteActivity.POINTED,false) == true){
+                1
+            }else{
+                0
+            }
+            val note = Note(title,description,point)
             noteViewModel.insert(note)
         }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main_menu, menu)
@@ -110,7 +121,6 @@ class MainFragment : Fragment() {
         }
         return super.onOptionsItemSelected(item)
     }
-
 
 
 }

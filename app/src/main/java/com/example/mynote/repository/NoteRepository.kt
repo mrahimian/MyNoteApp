@@ -27,6 +27,10 @@ class NoteRepository {
         UpdateNote(noteDao).execute(note)
     }
 
+    fun updatePoint(note: Note, point: Int){
+        UpdatePoint(noteDao,point).execute(note)
+    }
+
     fun delete(note: Note){
         DeleteNote(noteDao).execute(note)
     }
@@ -54,6 +58,13 @@ class NoteRepository {
         private class UpdateNote(val noteDao: NoteDao) : AsyncTask<Note, Void?, Void?>() {
             override fun doInBackground(vararg params: Note?): Void? {
                 params[0]?.let { noteDao.update(it) }
+                return null
+            }
+        }
+
+        private class UpdatePoint(val noteDao: NoteDao, val point: Int) : AsyncTask<Note, Void?, Void?>() {
+            override fun doInBackground(vararg params: Note?): Void? {
+                params[0]?.let { it.id?.let { it1 -> noteDao.updatePoint(it1,point) } }
                 return null
             }
         }

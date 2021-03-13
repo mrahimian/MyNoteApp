@@ -3,40 +3,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/note_navigation"
-    app:startDestination="@id/editNoteFragment">
+    app:startDestination="@id/allNotesFragment"
+    >
 
     <fragment
-        android:id="@+id/editNoteFragment"
-        android:name="com.example.mynote.MainFragment"
+        android:id="@+id/allNotesFragment"
+        android:name="com.example.mynote.AllNotesFragment"
         android:label="My Note"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/all_notes_fragment" >
         <action
-            android:id="@+id/action_editNoteFragment_to_notesFragment"
+            android:id="@+id/action_all_notes_fragment_to_notesFragment"
             app:destination="@id/notesFragment"
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out" />
+            app:popEnterAnim="@anim/slide_out"
+            />
     </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.mynote.FavoriteFragment"
+        android:label="Favorites"
+        tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/notesFragment"
         android:name="com.example.mynote.NotesFragment"
         android:label="Edit Note"
         tools:layout="@layout/fragment_notes">
-        <argument
-            android:name="title"
-            app:argType="string" />
-        <argument
-            android:name="description"
-            app:argType="string" />
-        <argument
-            android:name="id"
-            app:argType="integer"
-            android:defaultValue="-1" />
         <action
-            android:id="@+id/action_notesFragment_to_editNoteFragment"
-            app:destination="@id/editNoteFragment"
-            app:popUpTo="@id/editNoteFragment"
+            android:id="@+id/action_notesFragment_to_all_notes_fragment"
+            app:destination="@id/allNotesFragment"
+            app:enterAnim="@anim/slide_out"
+            app:exitAnim="@anim/fade_in"
+            app:popUpTo="@id/allNotesFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="note"
+            app:argType="com.example.mynote.database.Note" />
     </fragment>
+
 </navigation>
