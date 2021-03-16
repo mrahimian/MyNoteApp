@@ -15,6 +15,7 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
@@ -54,22 +55,24 @@ class MainActivity : AppCompatActivity() {
         bottomNav.setupWithNavController( navController);
         setupActionBarWithNavController(navController,appBarConfiguration);
 
-/*
-
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if(destination.id == R.id.all_notes_fragment) {
-                toolbar.visibility = View.GONE
-            }else {
-                toolbar.visibility = View.VISIBLE
+            when(destination.id ) {
+                R.id.notesFragment -> {
+                    bottomNav.visibility = View.GONE
+                }
+                R.id.allNotesFragment  -> {
+                    bottomNav.visibility = View.VISIBLE
+                }
+                R.id.favoriteFragment  -> {
+                    bottomNav.visibility = View.VISIBLE
+                }
             }
         }
-*/
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
     }
 
 
     override fun onSupportNavigateUp(): Boolean {
-        Log.e("clicked1", "")
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 

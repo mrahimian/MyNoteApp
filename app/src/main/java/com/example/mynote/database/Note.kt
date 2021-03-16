@@ -3,9 +3,11 @@ package com.example.mynote.database
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
+
 @Parcelize
 @Entity(tableName = "notes")
 data class Note(
@@ -14,13 +16,16 @@ data class Note(
     @ColumnInfo(name = "description")
     var text: String?,
     @ColumnInfo
-    var pointed : Int = 0
+    var pointed: Int = 0
 
-):Parcelable{
+) : Parcelable {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 
+    @ColumnInfo
+    var isSelected = false
+
     override fun toString(): String {
-        return "title : $title , text : $text , id = $id"
+        return "title : $title , text : $text , id = $id , isSelected = $isSelected"
     }
 }
